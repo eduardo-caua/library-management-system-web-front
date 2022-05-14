@@ -46,31 +46,14 @@ export const TrackingList: React.FC = () => {
     });
   }, [pagina]);
 
-  const handleDelete = (id: number) => {
-    if (confirm('Are you sure you want to proceed?')) {
-      TrackingService.deleteById(id)
-        .then(result => {
-          if (result instanceof Error) {
-            alert(result.message);
-          } else {
-            setRows(oldRows => [
-              ...oldRows.filter(oldRow => oldRow.id !== id),
-            ]);
-            alert('Tracking successfully deleted!');
-          }
-        });
-    }
-  };
-
   return (
     <BaseLayout
-      title={'Tracking for '+title}
+      title={'Tracking for: '+title}
       toolbar={
         <ListsComponent
           mostrarInputBusca={false}
           textoBotaoNovo={status === 'IN' ? 'Check Out' : 'Return'}
           aoClicarEmNovo={() => navigate(`/books/${bookId}/tracking/new`)}
-          aoMudarTextoDeBusca={() => setSearchParams({pagina: '1' }, { replace: true })}
         />
       }
     >
@@ -93,9 +76,6 @@ export const TrackingList: React.FC = () => {
                 <TableCell>
                   <IconButton size="small" onClick={() => navigate(`/books/${bookId}/tracking/${row.id}`)}>
                     <Icon>edit</Icon>
-                  </IconButton>
-                  <IconButton size="small" onClick={() => handleDelete(row.id)}>
-                    <Icon>delete</Icon>
                   </IconButton>
                 </TableCell>
               </TableRow>

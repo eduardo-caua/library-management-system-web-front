@@ -8,6 +8,7 @@ export interface IBook {
   isbn: string;
   description: string;
   status: string;
+  dueDate: Date;
 }
 
 export interface ICustomer {
@@ -20,9 +21,10 @@ export interface ICustomer {
 export interface ITracking {
   id: number;
   bookId?: number;
+  book?: IBook;
   customerId: number;
   customer: ICustomer;
-  dueDate: Date;
+  dueDate?: Date;
   action: string;
   createdAt: string;
 }
@@ -70,7 +72,7 @@ const getById = async (id: number): Promise<ITracking | Error> => {
   }
 };
 
-const create = async (dados: Omit<ITracking, 'id' | 'customer' | 'createdAt'>): Promise<number | Error> => {
+const create = async (dados: Omit<ITracking, 'id' | 'customer' | 'book' | 'createdAt'>): Promise<number | Error> => {
   try {
     const { data } = await API.post<ITracking>(`/books/${dados.bookId}/tracking`, dados);
 
@@ -85,21 +87,12 @@ const create = async (dados: Omit<ITracking, 'id' | 'customer' | 'createdAt'>): 
   }
 };
 
-const updateById = async (dados: Omit<ITracking, 'customer' | 'createdAt'>): Promise<void | Error> => {
+const updateById = async (dados: Omit<ITracking, 'customer' | 'book' | 'createdAt'>): Promise<void | Error> => {
   try {
-    await API.patch<ITracking>(`/tracking/${dados.id}`, dados);
+    await API.patch<ITracking>(`/books/${dados.bookId}/tracking/${dados.id}`, dados);
   } catch (error) {
     console.error(error);
     return new Error((error as { message: string }).message || 'Unexpected error on update. Try again later..');
-  }
-};
-
-const deleteById = async (id: number): Promise<void | Error> => {
-  try {
-    await API.delete(`/tracking/${id}`);
-  } catch (error) {
-    console.error(error);
-    return new Error((error as { message: string }).message || 'Unexpected error on delete. Try again later.');
   }
 };
 
@@ -108,5 +101,4 @@ export const TrackingService = {
   create,
   getById,
   updateById,
-  deleteById
 };

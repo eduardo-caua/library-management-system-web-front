@@ -14,6 +14,7 @@ interface IFormData {
   isbn: string;
   description: string;
   status: string;
+  dueDate?: string;
 }
 
 const formValidationSchema: yup.SchemaOf<IFormData> = yup.object().shape({
@@ -22,6 +23,7 @@ const formValidationSchema: yup.SchemaOf<IFormData> = yup.object().shape({
   isbn: yup.string().required().min(3),
   description: yup.string().required().min(3),
   status: yup.string().required().min(2).max(3),
+  dueDate: yup.string().optional(),
 });
 
 export const DetailedBook: React.FC = () => {

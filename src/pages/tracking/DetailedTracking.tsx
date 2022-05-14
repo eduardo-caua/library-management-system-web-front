@@ -9,18 +9,19 @@ import { AutoCompleteCustomer } from './components/AutoCompleteCustomer';
 import { VTextField, VSelectField, VForm, useVForm, IVFormErrors } from '../../shared/forms';
 import { DetailsComponent } from '../../shared/components';
 import { BaseLayout } from '../../shared/layouts';
+import { minHeight } from '@mui/system';
 
 interface IFormData {
   customerId: number;
-  dueDate: Date;
+  dueDate?: Date;
   action: string;
 }
 
 const formValidationSchema: yup.SchemaOf<IFormData> = yup.object().shape({
   bookId: yup.number().required().min(1),
   customerId: yup.number().required().min(1),
-  dueDate: yup.date().required(),
   action: yup.string().required().min(2).max(3),
+  dueDate: yup.date().optional(),
 });
 
 export const DetailedTracking: React.FC = () => {
@@ -33,9 +34,9 @@ export const DetailedTracking: React.FC = () => {
   const [title, setTitle] = useState('');
 
   useEffect(() => {
-    if (id !== 'new') {
-      setIsLoading(true);
+    setIsLoading(true);
 
+    if (id !== 'new') {
       TrackingService
         .getById(Number(id))
         .then((result) => {
@@ -46,6 +47,7 @@ export const DetailedTracking: React.FC = () => {
             navigate(`/books/${bookId}/tracking`);
           } else {
             setTitle(result.action === 'OUT' ? 'Check Out' : 'Return');
+            result.dueDate = result.book?.dueDate;
             formRef.current?.setData(result);
           }
         });
@@ -55,22 +57,19 @@ export const DetailedTracking: React.FC = () => {
         .then((result) => {
           setIsLoading(false);
 
-          let status;
-
           if (result instanceof Error) {
-            status = '';
+            alert(result.message);
+            navigate(`/books/${bookId}/tracking`);
           } else {
-            status = result.status;
+            setTitle(result.status === 'IN' ? 'Check Out' : 'Return');
+
+            formRef.current?.setData({
+              bookId: bookId,
+              customerId: '',
+              dueDate: result.dueDate ? result.dueDate : new Date().toISOString().split('T')[0],
+              action: result.status === 'IN' ? 'OUT' : 'IN',
+            });
           }
-
-          setTitle(status === 'IN' ? 'Check Out' : 'Return');
-
-          formRef.current?.setData({
-            bookId: bookId,
-            customerId: '',
-            dueDate: new Date().toISOString().split('T')[0],
-            action: status === 'IN' ? 'OUT' : 'IN',
-          });
         });
     }
   }, [id]);
@@ -125,20 +124,6 @@ export const DetailedTracking: React.FC = () => {
       });
   };
 
-  const handleDelete = (id: number) => {
-    if (confirm('Are you sure you want to proceed?')) {
-      TrackingService.deleteById(id)
-        .then(result => {
-          if (result instanceof Error) {
-            alert(result.message);
-          } else {
-            alert('Tracking successfully deleted!');
-            navigate(`/books/${bookId}/tracking`);
-          }
-        });
-    }
-  };
-
   return (
     <BaseLayout
       title={title}
@@ -146,12 +131,11 @@ export const DetailedTracking: React.FC = () => {
         <DetailsComponent
           mostrarBotaoSalvarEFechar
           mostrarBotaoNovo={false}
-          mostrarBotaoApagar={id !== 'new'}
+          mostrarBotaoApagar={false}
 
           aoClicarEmSalvar={save}
           aoClicarEmSalvarEFechar={saveAndClose}
           aoClicarEmVoltar={() => navigate(`/books/${bookId}/tracking`)}
-          aoClicarEmApagar={() => handleDelete(Number(id))}
           aoClicarEmNovo={() => navigate(`/books/${bookId}/tracking/new`)}
         />
       }
@@ -183,7 +167,7 @@ export const DetailedTracking: React.FC = () => {
             </Grid>
 
             <Grid container item direction="row" spacing={2}>
-              <Grid item xs={12} sm={12} md={6} lg={4} xl={2}>
+              <Grid item xs={12} sm={12} md={6} lg={4} xl={2} hidden={title === 'Return' ? true : false}>
                 <VTextField
                   fullWidth
                   name='dueDate'

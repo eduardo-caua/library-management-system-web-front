@@ -8,6 +8,7 @@ export interface IBook {
   isbn: string;
   description: string;
   status: string;
+  dueDate?: string;
 }
 
 export interface ICustomer {

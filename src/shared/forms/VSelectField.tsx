@@ -1,13 +1,14 @@
 import { useEffect, useState } from 'react';
 import { Select, SelectProps, InputLabel, MenuItem, FormControl, FormHelperText } from '@mui/material';
 import { useField } from '@unform/core';
+import { string } from 'yup';
 
 type TVSelectProps = SelectProps & {
   name: string;
-  options?: string[];
+  options: string[];
 }
 
-export const VSelectField: React.FC<TVSelectProps> = ({ name, ...rest }) => {
+export const VSelectField: React.FC<TVSelectProps> = ({ name, options, ...rest }) => {
   const { fieldName, registerField, defaultValue, error, clearError } = useField(name);
 
   const [value, setValue] = useState(defaultValue || '');
@@ -32,8 +33,9 @@ export const VSelectField: React.FC<TVSelectProps> = ({ name, ...rest }) => {
         onChange={e => { setValue(e.target.value); rest.onChange?.(e, {}); }}
         onKeyDown={(e) => { error && clearError(); rest.onKeyDown?.(e); }}
       >
-        <MenuItem value={'IN'}>IN</MenuItem>
-        <MenuItem value={'OUT'}>OUT</MenuItem>
+        {options.map(row => (
+          <MenuItem key={row} value={row}>{row}</MenuItem>
+        ))}
       </Select>
       <FormHelperText>{error}</FormHelperText>
     </FormControl>

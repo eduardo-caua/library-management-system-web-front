@@ -8,8 +8,8 @@ import { TrackingService } from '../../shared/services/api/tracking/TrackingServ
 import { AutoCompleteCustomer } from './components/AutoCompleteCustomer';
 import { VTextField, VSelectField, VForm, useVForm, IVFormErrors } from '../../shared/forms';
 import { DetailsComponent } from '../../shared/components';
+import { Environment } from '../../shared/environment';
 import { BaseLayout } from '../../shared/layouts';
-import { minHeight } from '@mui/system';
 
 interface IFormData {
   customerId: number;
@@ -20,7 +20,7 @@ interface IFormData {
 const formValidationSchema: yup.SchemaOf<IFormData> = yup.object().shape({
   bookId: yup.number().required().min(1),
   customerId: yup.number().required().min(1),
-  action: yup.string().required().min(2).max(3),
+  action: yup.string().required().min(8).max(9),
   dueDate: yup.date().optional(),
 });
 
@@ -46,7 +46,7 @@ export const DetailedTracking: React.FC = () => {
             alert(result.message);
             navigate(`/books/${bookId}/tracking`);
           } else {
-            setTitle(result.action === 'OUT' ? 'Check Out' : 'Return');
+            setTitle(result.action);
             result.dueDate = result.book?.dueDate;
             formRef.current?.setData(result);
           }
@@ -61,13 +61,15 @@ export const DetailedTracking: React.FC = () => {
             alert(result.message);
             navigate(`/books/${bookId}/tracking`);
           } else {
-            setTitle(result.status === 'IN' ? 'Check Out' : 'Return');
+            const isAvailable = result.status === Environment.AVAILABLE ? true : false;
+
+            setTitle(isAvailable ? Environment.CHECK_OUT : Environment.CHECK_IN);
 
             formRef.current?.setData({
               bookId: bookId,
               customerId: '',
               dueDate: result.dueDate ? result.dueDate : new Date().toISOString().split('T')[0],
-              action: result.status === 'IN' ? 'OUT' : 'IN',
+              action: isAvailable ? Environment.CHECK_OUT : Environment.CHECK_IN,
             });
           }
         });
@@ -167,7 +169,7 @@ export const DetailedTracking: React.FC = () => {
             </Grid>
 
             <Grid container item direction="row" spacing={2}>
-              <Grid item xs={12} sm={12} md={6} lg={4} xl={2} hidden={title === 'Return' ? true : false}>
+              <Grid item xs={12} sm={12} md={6} lg={4} xl={2} hidden={title === Environment.CHECK_IN ? true : false}>
                 <VTextField
                   fullWidth
                   name='dueDate'
@@ -190,6 +192,7 @@ export const DetailedTracking: React.FC = () => {
                   label='Action'
                   id='action-select'
                   disabled={true}
+                  options={[Environment.CHECK_IN,Environment.CHECK_OUT]}
                 />
               </Grid>
             </Grid>

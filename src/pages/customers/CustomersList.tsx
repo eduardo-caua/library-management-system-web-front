@@ -83,7 +83,7 @@ export const CustomersList: React.FC = () => {
           <TableHead>
             <TableRow>
               <TableCell>Name</TableCell>
-              <TableCell>Address</TableCell>
+              <TableCell>Email</TableCell>
               <TableCell>Phone</TableCell>
               <TableCell width={100}>Actions</TableCell>
             </TableRow>
@@ -92,7 +92,7 @@ export const CustomersList: React.FC = () => {
             {rows.map(row => (
               <TableRow key={row.id}>
                 <TableCell>{row.name}</TableCell>
-                <TableCell>{row.address}</TableCell>
+                <TableCell>{row.email}</TableCell>
                 <TableCell>{row.phone}</TableCell>
                 <TableCell>
                   <IconButton size="small" onClick={() => handleDelete(row.id)}>

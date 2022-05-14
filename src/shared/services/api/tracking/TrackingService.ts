@@ -13,7 +13,7 @@ export interface IBook {
 export interface ICustomer {
   id: number;
   name: string;
-  address: string;
+  email: string;
   phone: string;
 }
 

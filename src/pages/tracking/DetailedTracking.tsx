@@ -12,14 +12,14 @@ import { BaseLayout } from '../../shared/layouts';
 
 interface IFormData {
   customerId: number;
-  dueDate: string;
+  dueDate: Date;
   action: string;
 }
 
 const formValidationSchema: yup.SchemaOf<IFormData> = yup.object().shape({
   bookId: yup.number().required().min(1),
   customerId: yup.number().required().min(1),
-  dueDate: yup.string().required().min(10).max(10),
+  dueDate: yup.date().required(),
   action: yup.string().required().min(2).max(3),
 });
 
@@ -93,7 +93,7 @@ export const DetailedTracking: React.FC = () => {
                 if (isSaveAndClose()) {
                   navigate(`/books/${bookId}/tracking`);
                 } else {
-                  navigate(`/books/${result}`);
+                  navigate(`/books/${bookId}/tracking/${result}`);
                 }
               }
             });

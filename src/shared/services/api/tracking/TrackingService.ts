@@ -22,7 +22,7 @@ export interface ITracking {
   bookId?: number;
   customerId: number;
   customer: ICustomer;
-  dueDate: string;
+  dueDate: Date;
   action: string;
   createdAt: string;
 }

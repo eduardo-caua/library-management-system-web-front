@@ -23,7 +23,7 @@ const formValidationSchema: yup.SchemaOf<IFormData> = yup.object().shape({
   author: yup.string().required().min(3),
   isbn: yup.string().required().min(3),
   description: yup.string().required().min(3),
-  status: yup.string().required().min(2).max(3),
+  status: yup.string().required().min(9).max(11),
   dueDate: yup.string().optional(),
 });
 

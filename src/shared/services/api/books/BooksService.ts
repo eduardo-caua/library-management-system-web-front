@@ -19,21 +19,18 @@ export interface ICustomer {
 }
 
 type TBooksData = {
-  data: IBook[];
-  totalCount: number;
+  rows: IBook[];
+  count: number;
 }
 
 const getAll = async (page = 1, filter = ''): Promise<TBooksData | Error> => {
   try {
-    const urlRelativa = `/books?_page=${page}&_limit=${Environment.PAGE_SIZE}&nome_like=${filter}`;
+    const urlRelativa = `/books?_offset=${page-1}&_limit=${Environment.PAGE_SIZE}&title=${filter}`;
 
-    const { data, headers } = await API.get(urlRelativa);
+    const { data } = await API.get(urlRelativa);
 
     if (data) {
-      return {
-        data,
-        totalCount: Number(headers['x-total-count'] || Environment.PAGE_SIZE),
-      };
+      return data;
     }
 
     return new Error('Unexpected error on query. Try again later.');

@@ -16,21 +16,18 @@ export interface ICustomer {
 }
 
 type TCustomerData = {
-  data: ICustomersList[];
-  totalCount: number;
+  rows: ICustomersList[];
+  count: number;
 }
 
 const getAll = async (page = 1, filter = ''): Promise<TCustomerData | Error> => {
   try {
-    const urlRelativa = `/customers?_page=${page}&_limit=${Environment.PAGE_SIZE}&nomeCompleto_like=${filter}`;
+    const urlRelativa = `/customers?_offset=${page-1}&_limit=${Environment.PAGE_SIZE}&name=${filter}`;
 
-    const { data, headers } = await API.get(urlRelativa);
+    const { data } = await API.get(urlRelativa);
 
     if (data) {
-      return {
-        data,
-        totalCount: Number(headers['x-total-count'] || Environment.PAGE_SIZE),
-      };
+      return data;
     }
 
     return new Error('Unexpected error on query. Try again later.');

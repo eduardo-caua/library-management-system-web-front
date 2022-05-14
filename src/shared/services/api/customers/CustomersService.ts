@@ -4,14 +4,14 @@ import { API } from '../axios-config';
 export interface ICustomersList {
   id: number;
   name: string;
-  address: string;
+  email: string;
   phone: string;
 }
 
 export interface ICustomer {
   id: number;
   name: string;
-  address: string;
+  email: string;
   phone: string;
 }
 

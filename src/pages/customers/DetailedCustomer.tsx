@@ -10,13 +10,13 @@ import { BaseLayout } from '../../shared/layouts';
 
 interface IFormData {
   name: string;
-  address: string;
+  email: string;
   phone: string;
 }
 
 const formValidationSchema: yup.SchemaOf<IFormData> = yup.object().shape({
   name: yup.string().required().min(3),
-  address: yup.string().required().min(3),
+  email: yup.string().email().required(),
   phone: yup.string().required().min(3),
 });
 
@@ -46,7 +46,7 @@ export const DetailedCustomer: React.FC = () => {
         });
     } else {
       formRef.current?.setData({
-        address: '',
+        email: '',
         name: '',
         phone: '',
       });
@@ -169,8 +169,8 @@ export const DetailedCustomer: React.FC = () => {
               <Grid item xs={12} sm={12} md={6} lg={4} xl={2}>
                 <VTextField
                   fullWidth
-                  name='address'
-                  label='Address'
+                  name='email'
+                  label='Email'
                   disabled={isLoading}
                 />
               </Grid>

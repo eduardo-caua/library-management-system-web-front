@@ -79,10 +79,11 @@ export const BooksList: React.FC = () => {
           <TableHead>
             <TableRow>
               <TableCell width={200}>Title</TableCell>
-              <TableCell width={150}>Author</TableCell>
-              <TableCell>Description</TableCell>
-              <TableCell width={130}>ISBN</TableCell>
+              <TableCell width={600}>Description</TableCell>
+              <TableCell>Author</TableCell>
+              <TableCell>ISBN</TableCell>
               <TableCell>Status</TableCell>
+              <TableCell>Due Date</TableCell>
               <TableCell width={110}>Actions</TableCell>
             </TableRow>
           </TableHead>
@@ -90,10 +91,11 @@ export const BooksList: React.FC = () => {
             {rows.map(row => (
               <TableRow key={row.id}>
                 <TableCell>{row.title}</TableCell>
-                <TableCell>{row.author}</TableCell>
                 <TableCell>{row.description}</TableCell>
+                <TableCell>{row.author}</TableCell>
                 <TableCell>{row.isbn}</TableCell>
                 <TableCell>{row.status}</TableCell>
+                <TableCell>{row.dueDate ? row.dueDate : '-'}</TableCell>
                 <TableCell>
                   <IconButton size="small" onClick={() => navigate(`/books/${row.id}/tracking`)}>
                     <Icon>manage_search</Icon>

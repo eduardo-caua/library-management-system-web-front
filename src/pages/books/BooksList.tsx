@@ -4,8 +4,8 @@ import { useNavigate, useSearchParams } from 'react-router-dom';
 
 import { IBook, BooksService, } from '../../shared/services/api/books/BooksService';
 import { ListsComponent } from '../../shared/components';
-import { BaseLayout } from '../../shared/layouts';
 import { Environment } from '../../shared/environment';
+import { BaseLayout } from '../../shared/layouts';
 import { useDebounce } from '../../shared/hooks';
 
 export const BooksList: React.FC = () => {
@@ -94,7 +94,7 @@ export const BooksList: React.FC = () => {
                 <TableCell>{row.description}</TableCell>
                 <TableCell>{row.author}</TableCell>
                 <TableCell>{row.isbn}</TableCell>
-                <TableCell>{row.status}</TableCell>
+                <TableCell>{row.status === Environment.CHECKED_OUT && row.dueDate != null && new Date(row.dueDate) < new Date() ? Environment.CHECKED_OUT : row.status }</TableCell>
                 <TableCell>{row.dueDate ? row.dueDate : '-'}</TableCell>
                 <TableCell>
                   <IconButton size="small" onClick={() => navigate(`/books/${row.id}/tracking`)}>

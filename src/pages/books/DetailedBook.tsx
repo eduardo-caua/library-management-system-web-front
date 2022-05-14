@@ -6,6 +6,7 @@ import * as yup from 'yup';
 import { BooksService } from '../../shared/services/api/books/BooksService';
 import { VTextField, VSelectField, VForm, useVForm, IVFormErrors } from '../../shared/forms';
 import { DetailsComponent } from '../../shared/components';
+import { Environment } from '../../shared/environment';
 import { BaseLayout } from '../../shared/layouts';
 
 interface IFormData {
@@ -211,6 +212,7 @@ export const DetailedBook: React.FC = () => {
                   label='Status'
                   id='status-select'
                   disabled={isLoading}
+                  options={[Environment.AVAILABLE,Environment.CHECKED_OUT]}
                 />
               </Grid>
             </Grid>

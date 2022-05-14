@@ -4,8 +4,8 @@ import { useNavigate, useSearchParams, useParams } from 'react-router-dom';
 
 import { ITracking, TrackingService, } from '../../shared/services/api/tracking/TrackingService';
 import { ListsComponent } from '../../shared/components';
-import { BaseLayout } from '../../shared/layouts';
 import { Environment } from '../../shared/environment';
+import { BaseLayout } from '../../shared/layouts';
 import { useDebounce } from '../../shared/hooks';
 
 export const TrackingList: React.FC = () => {
@@ -52,7 +52,7 @@ export const TrackingList: React.FC = () => {
       toolbar={
         <ListsComponent
           mostrarInputBusca={false}
-          textoBotaoNovo={status === 'IN' ? 'Check Out' : 'Return'}
+          textoBotaoNovo={status === Environment.AVAILABLE ? Environment.CHECK_OUT : Environment.CHECK_IN}
           aoClicarEmNovo={() => navigate(`/books/${bookId}/tracking/new`)}
         />
       }

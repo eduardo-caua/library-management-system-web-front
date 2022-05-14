@@ -45,7 +45,7 @@ export const AutoCompleteCustomer: React.FC<IAutoCompleteCustomerProps> = ({ isE
           } else {
             console.log(result);
 
-            setOpcoes(result.data.map(customer => ({ id: customer.id, label: customer.name })));
+            setOpcoes(result.rows.map(customer => ({ id: customer.id, label: customer.name })));
           }
         });
     });

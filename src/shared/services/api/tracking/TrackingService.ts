@@ -30,24 +30,19 @@ export interface ITracking {
 }
 
 type TTrackingData = {
-  data: {
-    book: IBook,
-    tracking: ITracking[]
-  };
-  totalCount: number;
+  count: number;
+  book: IBook,
+  rows: ITracking[];
 }
 
 const getAll = async (id: number, page = 1): Promise<TTrackingData | Error> => {
   try {
-    const urlRelativa = `/books/${id}/tracking?_page=${page}&_limit=${Environment.PAGE_SIZE}`;
+    const urlRelativa = `/books/${id}/tracking?_offset=${page-1}&_limit=${Environment.PAGE_SIZE}`;
 
-    const { data, headers } = await API.get(urlRelativa);
+    const { data } = await API.get(urlRelativa);
 
     if (data) {
-      return {
-        data,
-        totalCount: Number(headers['x-total-count'] || Environment.PAGE_SIZE),
-      };
+      return data;
     }
 
     return new Error('Unexpected error on query. Try again later.');

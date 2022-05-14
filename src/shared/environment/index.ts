@@ -1,5 +1,5 @@
 export const Environment = {
-  PAGE_SIZE: 5,
+  PAGE_SIZE: 8,
   SEARCH_PLACEHOLDER: 'Search...',
   EMPTY_LIST_MESSAGE: 'You\'ve not added any registers.',
   URL_BASE: 'http://localhost:5000/v1',
@@ -7,5 +7,5 @@ export const Environment = {
   CHECKED_OUT: 'CHECKED OUT',
   CHECK_OUT: 'CHECK OUT',
   DELAYED: 'DELAYED',
-  CHECK_IN: 'CHECK IN',
+  CHECK_IN: 'CHECK IN'
 };

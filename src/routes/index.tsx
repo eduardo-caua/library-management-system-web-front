@@ -32,11 +32,6 @@ export const AppRoutes = () => {
         path: '/customers',
         label: 'Customers',
       },
-      {
-        icon: 'analytics',
-        path: '/reports',
-        label: 'Reports',
-      },
     ]);
   }, []);
 

@@ -16,7 +16,7 @@ export const TrackingList: React.FC = () => {
 
   const [rows, setRows] = useState<ITracking[]>([]);
   const [isLoading, setIsLoading] = useState(true);
-  const [totalCount, setTotalCount] = useState(0);
+  const [count, setCount] = useState(0);
   const [title, setTitle] = useState('');
   const [status, setStatus] = useState('');
 
@@ -37,10 +37,10 @@ export const TrackingList: React.FC = () => {
           } else {
             console.log(result);
 
-            setTitle(result.data.book.title);
-            setStatus(result.data.book.status);
-            setTotalCount(result.totalCount);
-            setRows(result.data.tracking);
+            setTitle(result.book.title);
+            setStatus(result.book.status);
+            setCount(result.count);
+            setRows(result.rows);
           }
         });
     });
@@ -82,7 +82,7 @@ export const TrackingList: React.FC = () => {
             ))}
           </TableBody>
 
-          {totalCount === 0 && !isLoading && (
+          {count === 0 && !isLoading && (
             <caption>{Environment.EMPTY_LIST_MESSAGE}</caption>
           )}
 
@@ -94,12 +94,12 @@ export const TrackingList: React.FC = () => {
                 </TableCell>
               </TableRow>
             )}
-            {(totalCount > 0 && totalCount > Environment.PAGE_SIZE) && (
+            {(count > 0 && count > Environment.PAGE_SIZE) && (
               <TableRow>
                 <TableCell colSpan={3}>
                   <Pagination
                     page={pagina}
-                    count={Math.ceil(totalCount / Environment.PAGE_SIZE)}
+                    count={Math.ceil(count / Environment.PAGE_SIZE)}
                     onChange={(_, newPage) => setSearchParams({pagina: newPage.toString() }, { replace: true })}
                   />
                 </TableCell>

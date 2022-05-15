@@ -2,7 +2,8 @@ import { useEffect, useMemo, useState } from 'react';
 import { Icon, IconButton, LinearProgress, Pagination, Paper, Table, TableBody, TableCell, TableContainer, TableFooter, TableHead, TableRow } from '@mui/material';
 import { useNavigate, useSearchParams } from 'react-router-dom';
 
-import { IBook, BooksService, } from '../../shared/services/api/books/BooksService';
+import { IBook, BooksService } from '../../shared/services/api/books/BooksService';
+import { ReportsService } from '../../shared/services/api/reports/ReportsService';
 import { ListsComponent } from '../../shared/components';
 import { Environment } from '../../shared/environment';
 import { BaseLayout } from '../../shared/layouts';
@@ -72,11 +73,15 @@ export const BooksList: React.FC = () => {
         <ListsComponent
           showSearchInput
           showSearchSelect
+          showDownloadButton={count !== 0 }
           searchText={search}
           selectOption={selectOption}
           options={[Environment.AVAILABLE,Environment.CHECKED_OUT,Environment.DELAYED]}
           newButtonLabel='New'
           onNewButtonClick={() => navigate('/books/new')}
+          onDownloadButtonClick={() => {
+            window.location.href = ReportsService.downloadBooksReport(search, selectOption);
+          }}
           onSearchTextChange={text => setSearchParams({ search: text, selectOption, page: '1' }, { replace: true })}
           onSelectChange={option => setSearchParams({ search, selectOption: option, page: '1' }, { replace: true })}
         />

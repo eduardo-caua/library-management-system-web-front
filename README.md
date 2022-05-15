@@ -10,7 +10,8 @@
 
 ## Next Steps
 - Features
-  - Question modal instead of alerts to capture users approve
+  - Question modal instead of native alerts to capture users approve
+  - Split better the components
 - Architecture
   - Using .env library
   - Service worker to handle connection problems

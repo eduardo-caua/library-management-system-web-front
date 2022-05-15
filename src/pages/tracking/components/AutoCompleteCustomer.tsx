@@ -22,7 +22,7 @@ export const AutoCompleteCustomer: React.FC<IAutoCompleteCustomerProps> = ({ isE
 
   const [opcoes, setOpcoes] = useState<TAutoCompleteOption[]>([]);
   const [isLoading, setIsLoading] = useState(false);
-  const [busca, setBusca] = useState('');
+  const [search, setSearch] = useState('');
 
   useEffect(() => {
     registerField({
@@ -36,7 +36,7 @@ export const AutoCompleteCustomer: React.FC<IAutoCompleteCustomerProps> = ({ isE
     setIsLoading(true);
 
     debounce(() => {
-      CustomersService.getAll(1, busca)
+      CustomersService.getAll(1, search)
         .then((result) => {
           setIsLoading(false);
 
@@ -49,7 +49,7 @@ export const AutoCompleteCustomer: React.FC<IAutoCompleteCustomerProps> = ({ isE
           }
         });
     });
-  }, [busca]);
+  }, [search]);
 
   const autoCompleteSelectedOption = useMemo(() => {
     if (!selectedId) return null;
@@ -74,8 +74,8 @@ export const AutoCompleteCustomer: React.FC<IAutoCompleteCustomerProps> = ({ isE
       loading={isLoading}
       disabled={isExternalLoading}
       value={autoCompleteSelectedOption}
-      onInputChange={(_, newValue) => setBusca(newValue)}
-      onChange={(_, newValue) => { setSelectedId(newValue?.id); setBusca(''); clearError(); }}
+      onInputChange={(_, newValue) => setSearch(newValue)}
+      onChange={(_, newValue) => { setSelectedId(newValue?.id); setSearch(''); clearError(); }}
       popupIcon={(isExternalLoading || isLoading) ? <CircularProgress size={28} /> : undefined}
       renderInput={(params) => (
         <TextField

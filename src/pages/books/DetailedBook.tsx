@@ -132,16 +132,16 @@ export const DetailedBook: React.FC = () => {
       title={id === 'new' ? 'New book' : title}
       toolbar={
         <DetailsComponent
-          textoBotaoNovo='New'
-          mostrarBotaoSalvarEFechar
-          mostrarBotaoNovo={id !== 'new'}
-          mostrarBotaoApagar={id !== 'new'}
+          newButtonLabel='New'
+          showSaveAndCloseButton
+          showNewButton={id !== 'new'}
+          showDeleteButton={id !== 'new'}
 
-          aoClicarEmSalvar={save}
-          aoClicarEmSalvarEFechar={saveAndClose}
-          aoClicarEmVoltar={() => navigate('/books')}
-          aoClicarEmApagar={() => handleDelete(Number(id))}
-          aoClicarEmNovo={() => navigate('/books/new')}
+          onSaveButtonClick={save}
+          onSaveAndCloseButtonClick={saveAndClose}
+          onBackButtonClick={() => navigate('/books')}
+          onDeleteButtonClick={() => handleDelete(Number(id))}
+          onNewButtonClick={() => navigate('/books/new')}
         />
       }
     >

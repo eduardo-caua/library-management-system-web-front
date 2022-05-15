@@ -23,9 +23,9 @@ type TBooksData = {
   count: number;
 }
 
-const getAll = async (page = 1, filter = ''): Promise<TBooksData | Error> => {
+const getAll = async (page = 1, title = '', status = ''): Promise<TBooksData | Error> => {
   try {
-    const urlRelativa = `/books?_offset=${page-1}&_limit=${Environment.PAGE_SIZE}&title=${filter}`;
+    const urlRelativa = `/books?_offset=${page-1}&_limit=${Environment.PAGE_SIZE}&title=${title}&status=${status}`;
 
     const { data } = await API.get(urlRelativa);
 

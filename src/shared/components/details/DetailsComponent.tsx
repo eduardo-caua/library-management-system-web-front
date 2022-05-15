@@ -1,47 +1,46 @@
 import { Box, Button, Divider, Icon, Paper, Skeleton, Theme, Typography, useMediaQuery, useTheme } from '@mui/material';
 
-
 interface IDetailsComponentProps {
-  textoBotaoNovo?: string;
+  newButtonLabel?: string;
 
-  mostrarBotaoNovo?: boolean;
-  mostrarBotaoVoltar?: boolean;
-  mostrarBotaoApagar?: boolean;
-  mostrarBotaoSalvar?: boolean;
-  mostrarBotaoSalvarEFechar?: boolean;
+  showNewButton?: boolean;
+  showBackButton?: boolean;
+  showDeleteButton?: boolean;
+  showSaveButton?: boolean;
+  showSaveAndCloseButton?: boolean;
 
-  mostrarBotaoNovoCarregando?: boolean;
-  mostrarBotaoVoltarCarregando?: boolean;
-  mostrarBotaoApagarCarregando?: boolean;
-  mostrarBotaoSalvarCarregando?: boolean;
-  mostrarBotaoSalvarEFecharCarregando?: boolean;
+  showNewButtonCarregando?: boolean;
+  showBackButtonCarregando?: boolean;
+  showDeleteButtonCarregando?: boolean;
+  showSaveButtonCarregando?: boolean;
+  showSaveAndCloseButtonCarregando?: boolean;
 
-  aoClicarEmNovo?: () => void;
-  aoClicarEmVoltar?: () => void;
-  aoClicarEmApagar?: () => void;
-  aoClicarEmSalvar?: () => void;
-  aoClicarEmSalvarEFechar?: () => void;
+  onNewButtonClick?: () => void;
+  onBackButtonClick?: () => void;
+  onDeleteButtonClick?: () => void;
+  onSaveButtonClick?: () => void;
+  onSaveAndCloseButtonClick?: () => void;
 }
 export const DetailsComponent: React.FC<IDetailsComponentProps> = ({
-  textoBotaoNovo = 'New',
+  newButtonLabel = 'New',
 
-  mostrarBotaoNovo = true,
-  mostrarBotaoVoltar = true,
-  mostrarBotaoApagar = true,
-  mostrarBotaoSalvar = true,
-  mostrarBotaoSalvarEFechar = false,
+  showNewButton = true,
+  showBackButton = true,
+  showDeleteButton = true,
+  showSaveButton = true,
+  showSaveAndCloseButton = false,
 
-  mostrarBotaoNovoCarregando = false,
-  mostrarBotaoVoltarCarregando = false,
-  mostrarBotaoApagarCarregando = false,
-  mostrarBotaoSalvarCarregando = false,
-  mostrarBotaoSalvarEFecharCarregando = false,
+  showNewButtonCarregando = false,
+  showBackButtonCarregando = false,
+  showDeleteButtonCarregando = false,
+  showSaveButtonCarregando = false,
+  showSaveAndCloseButtonCarregando = false,
 
-  aoClicarEmNovo,
-  aoClicarEmVoltar,
-  aoClicarEmApagar,
-  aoClicarEmSalvar,
-  aoClicarEmSalvarEFechar,
+  onNewButtonClick,
+  onBackButtonClick,
+  onDeleteButtonClick,
+  onSaveButtonClick,
+  onSaveAndCloseButtonClick,
 }) => {
   const smDown = useMediaQuery((theme: Theme) => theme.breakpoints.down('sm'));
   const mdDown = useMediaQuery((theme: Theme) => theme.breakpoints.down('md'));
@@ -58,12 +57,12 @@ export const DetailsComponent: React.FC<IDetailsComponentProps> = ({
       height={theme.spacing(5)}
       component={Paper}
     >
-      {(mostrarBotaoSalvar && !mostrarBotaoSalvarCarregando) && (
+      {(showSaveButton && !showSaveButtonCarregando) && (
         <Button
           color='primary'
           disableElevation
           variant='contained'
-          onClick={aoClicarEmSalvar}
+          onClick={onSaveButtonClick}
           startIcon={<Icon>save</Icon>}
         >
           <Typography variant='button' whiteSpace="nowrap" textOverflow="ellipsis" overflow="hidden">
@@ -72,16 +71,16 @@ export const DetailsComponent: React.FC<IDetailsComponentProps> = ({
         </Button>
       )}
 
-      {mostrarBotaoSalvarCarregando && (
+      {showSaveButtonCarregando && (
         <Skeleton width={110} height={60} />
       )}
 
-      {(mostrarBotaoSalvarEFechar && !mostrarBotaoSalvarEFecharCarregando && !smDown && !mdDown) && (
+      {(showSaveAndCloseButton && !showSaveAndCloseButtonCarregando && !smDown && !mdDown) && (
         <Button
           color='primary'
           disableElevation
           variant='outlined'
-          onClick={aoClicarEmSalvarEFechar}
+          onClick={onSaveAndCloseButtonClick}
           startIcon={<Icon>save</Icon>}
         >
           <Typography variant='button' whiteSpace="nowrap" textOverflow="ellipsis" overflow="hidden">
@@ -90,16 +89,16 @@ export const DetailsComponent: React.FC<IDetailsComponentProps> = ({
         </Button>
       )}
 
-      {(mostrarBotaoSalvarEFecharCarregando && !smDown && !mdDown) && (
+      {(showSaveAndCloseButtonCarregando && !smDown && !mdDown) && (
         <Skeleton width={180} height={60} />
       )}
 
-      {(mostrarBotaoApagar && !mostrarBotaoApagarCarregando) && (
+      {(showDeleteButton && !showDeleteButtonCarregando) && (
         <Button
           color='primary'
           disableElevation
           variant='outlined'
-          onClick={aoClicarEmApagar}
+          onClick={onDeleteButtonClick}
           startIcon={<Icon>delete</Icon>}
         >
           <Typography variant='button' whiteSpace="nowrap" textOverflow="ellipsis" overflow="hidden">
@@ -108,43 +107,43 @@ export const DetailsComponent: React.FC<IDetailsComponentProps> = ({
         </Button>
       )}
 
-      {mostrarBotaoApagarCarregando && (
+      {showDeleteButtonCarregando && (
         <Skeleton width={110} height={60} />
       )}
 
-      {(mostrarBotaoNovo && !mostrarBotaoNovoCarregando && !smDown) && (
+      {(showNewButton && !showNewButtonCarregando && !smDown) && (
         <Button
           color='primary'
           disableElevation
           variant='outlined'
-          onClick={aoClicarEmNovo}
+          onClick={onNewButtonClick}
           startIcon={<Icon>add</Icon>}
         >
           <Typography variant='button' whiteSpace="nowrap" textOverflow="ellipsis" overflow="hidden">
-            {textoBotaoNovo}
+            {newButtonLabel}
           </Typography>
         </Button>
       )}
 
-      {(mostrarBotaoNovoCarregando && !smDown) && (
+      {(showNewButtonCarregando && !smDown) && (
         <Skeleton width={110} height={60} />
       )}
 
       {
         (
-          mostrarBotaoVoltar &&
-          (mostrarBotaoNovo || mostrarBotaoApagar || mostrarBotaoSalvar || mostrarBotaoSalvarEFechar)
+          showBackButton &&
+          (showNewButton || showDeleteButton || showSaveButton || showSaveAndCloseButton)
         ) && (
           <Divider variant='middle' orientation='vertical' />
         )
       }
 
-      {(mostrarBotaoVoltar && !mostrarBotaoVoltarCarregando) && (
+      {(showBackButton && !showBackButtonCarregando) && (
         <Button
           color='primary'
           disableElevation
           variant='outlined'
-          onClick={aoClicarEmVoltar}
+          onClick={onBackButtonClick}
           startIcon={<Icon>arrow_back</Icon>}
         >
           <Typography variant='button' whiteSpace="nowrap" textOverflow="ellipsis" overflow="hidden">
@@ -153,7 +152,7 @@ export const DetailsComponent: React.FC<IDetailsComponentProps> = ({
         </Button>
       )}
 
-      {mostrarBotaoVoltarCarregando && (
+      {showBackButtonCarregando && (
         <Skeleton width={110} height={60} />
       )}
     </Box >

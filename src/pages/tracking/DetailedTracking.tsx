@@ -131,14 +131,14 @@ export const DetailedTracking: React.FC = () => {
       title={title}
       toolbar={
         <DetailsComponent
-          mostrarBotaoSalvarEFechar
-          mostrarBotaoNovo={false}
-          mostrarBotaoApagar={false}
+          showSaveAndCloseButton
+          showNewButton={false}
+          showDeleteButton={false}
 
-          aoClicarEmSalvar={save}
-          aoClicarEmSalvarEFechar={saveAndClose}
-          aoClicarEmVoltar={() => navigate(`/books/${bookId}/tracking`)}
-          aoClicarEmNovo={() => navigate(`/books/${bookId}/tracking/new`)}
+          onSaveButtonClick={save}
+          onSaveAndCloseButtonClick={saveAndClose}
+          onBackButtonClick={() => navigate(`/books/${bookId}/tracking`)}
+          onNewButtonClick={() => navigate(`/books/${bookId}/tracking/new`)}
         />
       }
     >

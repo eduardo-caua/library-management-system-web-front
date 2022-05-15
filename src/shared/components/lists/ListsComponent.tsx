@@ -1,25 +1,39 @@
-import { Box, Button, Icon, Paper, TextField, useTheme } from '@mui/material';
+import { Box, Button, Icon, Paper, TextField, useTheme, FormControl, Select, InputLabel, MenuItem, FormHelperText } from '@mui/material';
+import { useState } from 'react';
 
 import { Environment } from '../../environment';
 
-
 interface IListsComponentProps {
-  textoDaBusca?: string;
-  mostrarInputBusca?: boolean;
-  aoMudarTextoDeBusca?: (novoTexto: string) => void;
-  textoBotaoNovo?: string;
-  mostrarBotaoNovo?: boolean;
-  aoClicarEmNovo?: () => void;
+  searchText?: string;
+  showSearchInput?: boolean;
+  selectOption?: string;
+  options?: string[];
+  showSearchSelect?: boolean;
+  newButtonLabel?: string;
+  showNewButton?: boolean;
+  showDownloadButton?: boolean;
+  onNewButtonClick?: () => void;
+  onSearchTextChange?: (text: string) => void;
+  onSelectChange?: (text: string) => void;
+  onDownloadButtonClick?: () => void;
 }
 export const ListsComponent: React.FC<IListsComponentProps> = ({
-  textoDaBusca = '',
-  aoMudarTextoDeBusca,
-  mostrarInputBusca = false,
-  aoClicarEmNovo,
-  textoBotaoNovo = 'New',
-  mostrarBotaoNovo = true,
+  searchText = '',
+  showSearchInput = false,
+  selectOption = '',
+  options = [],
+  showSearchSelect = false,
+  newButtonLabel = 'New',
+  showNewButton = true,
+  showDownloadButton = false,
+  onSearchTextChange,
+  onNewButtonClick,
+  onSelectChange,
+  onDownloadButtonClick,
 }) => {
   const theme = useTheme();
+
+  const [option, setOption] = useState('');
 
   return (
     <Box
@@ -32,24 +46,51 @@ export const ListsComponent: React.FC<IListsComponentProps> = ({
       height={theme.spacing(5)}
       component={Paper}
     >
-      {mostrarInputBusca && (
+      {showSearchInput && (
         <TextField
           size="small"
-          value={textoDaBusca}
+          value={searchText}
           placeholder={Environment.SEARCH_PLACEHOLDER}
-          onChange={(e) => aoMudarTextoDeBusca?.(e.target.value)}
+          onChange={(e) => onSearchTextChange?.(e.target.value)}
         />
       )}
 
+      {showSearchSelect && (
+        <FormControl sx={{ minWidth: 250 }} size="small">
+          <Select
+            displayEmpty
+            value={selectOption || option}
+            onChange={(e) => { onSelectChange?.(e.target.value); setOption(e.target.value); }}
+          >
+            <MenuItem value="">Status</MenuItem>
+            {options.map(row => (
+              <MenuItem key={row} value={row}>{row}</MenuItem>
+            ))}
+          </Select>
+        </FormControl>
+      )}
+
       <Box flex={1} display="flex" justifyContent="end">
-        {mostrarBotaoNovo && (
+        {showDownloadButton && (
+          <Button
+            color='primary'
+            disableElevation
+            variant='outlined'
+            onClick={onDownloadButtonClick}
+            endIcon={<Icon>download</Icon>}
+          >Download</Button>
+        )}
+      </Box>
+
+      <Box display="flex" justifyContent="end">
+        {showNewButton && (
           <Button
             color='primary'
             disableElevation
             variant='contained'
-            onClick={aoClicarEmNovo}
+            onClick={onNewButtonClick}
             endIcon={<Icon>add</Icon>}
-          >{textoBotaoNovo}</Button>
+          >{newButtonLabel}</Button>
         )}
       </Box>
     </Box>

@@ -20,15 +20,15 @@ export const TrackingList: React.FC = () => {
   const [title, setTitle] = useState('');
   const [status, setStatus] = useState('');
 
-  const pagina = useMemo(() => {
-    return Number(searchParams.get('pagina') || '1');
+  const page = useMemo(() => {
+    return Number(searchParams.get('page') || '1');
   }, [searchParams]);
 
   useEffect(() => {
     setIsLoading(true);
 
     debounce(() => {
-      TrackingService.getAll(Number(bookId), pagina)
+      TrackingService.getAll(Number(bookId), page)
         .then((result) => {
           setIsLoading(false);
 
@@ -44,16 +44,16 @@ export const TrackingList: React.FC = () => {
           }
         });
     });
-  }, [pagina]);
+  }, [page]);
 
   return (
     <BaseLayout
       title={'Tracking for: '+title}
       toolbar={
         <ListsComponent
-          mostrarInputBusca={false}
-          textoBotaoNovo={status === Environment.AVAILABLE ? Environment.CHECK_OUT : Environment.CHECK_IN}
-          aoClicarEmNovo={() => navigate(`/books/${bookId}/tracking/new`)}
+          showSearchInput={false}
+          newButtonLabel={status === Environment.AVAILABLE ? Environment.CHECK_OUT : Environment.CHECK_IN}
+          onNewButtonClick={() => navigate(`/books/${bookId}/tracking/new`)}
         />
       }
     >
@@ -98,9 +98,9 @@ export const TrackingList: React.FC = () => {
               <TableRow>
                 <TableCell colSpan={3}>
                   <Pagination
-                    page={pagina}
+                    page={page}
                     count={Math.ceil(count / Environment.PAGE_SIZE)}
-                    onChange={(_, newPage) => setSearchParams({pagina: newPage.toString() }, { replace: true })}
+                    onChange={(_, newPage) => setSearchParams({page: newPage.toString() }, { replace: true })}
                   />
                 </TableCell>
               </TableRow>

@@ -41,8 +41,6 @@ export const BooksList: React.FC = () => {
           if (result instanceof Error) {
             alert(result.message);
           } else {
-            console.log(result);
-
             setCount(result.count);
             setRows(result.rows);
           }
@@ -71,6 +69,7 @@ export const BooksList: React.FC = () => {
       title='Books'
       toolbar={
         <ListsComponent
+          searchPlaceholder={Environment.SEARCH_PLACEHOLDER_BY_TITLE}
           showSearchInput
           showSearchSelect
           showDownloadButton={count !== 0 }

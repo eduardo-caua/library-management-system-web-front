@@ -127,14 +127,13 @@ export const DetailedCustomer: React.FC = () => {
         <DetailsComponent
           newButtonLabel='New'
           showSaveAndCloseButton
-          showNewButton={id !== 'new'}
+          showNewButton={false}
           showDeleteButton={id !== 'new'}
 
           onSaveButtonClick={save}
           onSaveAndCloseButtonClick={saveAndClose}
           onBackButtonClick={() => navigate('/customers')}
           onDeleteButtonClick={() => handleDelete(Number(id))}
-          onNewButtonClick={() => navigate('/customers/new')}
         />
       }
     >
@@ -148,10 +147,6 @@ export const DetailedCustomer: React.FC = () => {
                 <LinearProgress variant='indeterminate' />
               </Grid>
             )}
-
-            <Grid item>
-              <Typography variant='h6'>Geral</Typography>
-            </Grid>
 
             <Grid container item direction="row" spacing={2}>
               <Grid item xs={12} sm={12} md={6} lg={4} xl={2}>

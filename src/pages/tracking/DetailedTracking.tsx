@@ -21,7 +21,7 @@ const formValidationSchema: yup.SchemaOf<IFormData> = yup.object().shape({
   bookId: yup.number().required().min(1),
   customerId: yup.number().required().min(1),
   action: yup.string().required().min(8).max(9),
-  dueDate: yup.date().optional(),
+  dueDate: yup.mixed().optional(),
 });
 
 export const DetailedTracking: React.FC = () => {
@@ -116,9 +116,9 @@ export const DetailedTracking: React.FC = () => {
       })
       .catch((errors: yup.ValidationError) => {
         const validationErrors: IVFormErrors = {};
+        console.log(errors);
         errors.inner.forEach(error => {
           if (!error.path) return;
-
           validationErrors[error.path] = error.message;
         });
 
@@ -138,7 +138,6 @@ export const DetailedTracking: React.FC = () => {
           onSaveButtonClick={save}
           onSaveAndCloseButtonClick={saveAndClose}
           onBackButtonClick={() => navigate(`/books/${bookId}/tracking`)}
-          onNewButtonClick={() => navigate(`/books/${bookId}/tracking/new`)}
         />
       }
     >
@@ -152,10 +151,6 @@ export const DetailedTracking: React.FC = () => {
                 <LinearProgress variant='indeterminate' />
               </Grid>
             )}
-
-            <Grid item>
-              <Typography variant='h6'>Geral</Typography>
-            </Grid>
 
             <Grid container item direction="row" spacing={2}>
               <Grid item xs={12} sm={12} md={6} lg={4} xl={2} hidden>

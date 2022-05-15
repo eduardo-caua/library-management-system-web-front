@@ -39,8 +39,6 @@ export const CustomersList: React.FC = () => {
           if (result instanceof Error) {
             alert(result.message);
           } else {
-            console.log(result);
-
             setCount(result.count);
             setRows(result.rows);
           }
@@ -70,6 +68,7 @@ export const CustomersList: React.FC = () => {
       title='Customers'
       toolbar={
         <ListsComponent
+          searchPlaceholder={Environment.SEARCH_PLACEHOLDER_BY_NAME}
           showSearchInput
           searchText={search}
           newButtonLabel='New'

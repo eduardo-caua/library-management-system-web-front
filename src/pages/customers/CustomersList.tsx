@@ -19,12 +19,12 @@ export const CustomersList: React.FC = () => {
   const [count, setCount] = useState(0);
 
 
-  const busca = useMemo(() => {
-    return searchParams.get('busca') || '';
+  const search = useMemo(() => {
+    return searchParams.get('search') || '';
   }, [searchParams]);
 
-  const pagina = useMemo(() => {
-    return Number(searchParams.get('pagina') || '1');
+  const page = useMemo(() => {
+    return Number(searchParams.get('page') || '1');
   }, [searchParams]);
 
 
@@ -32,7 +32,7 @@ export const CustomersList: React.FC = () => {
     setIsLoading(true);
 
     debounce(() => {
-      CustomersService.getAll(pagina, busca)
+      CustomersService.getAll(page, search)
         .then((result) => {
           setIsLoading(false);
 
@@ -46,7 +46,7 @@ export const CustomersList: React.FC = () => {
           }
         });
     });
-  }, [busca, pagina]);
+  }, [search, page]);
 
   const handleDelete = (id: number) => {
     if (confirm('Are you sure you want to proceed?')) {
@@ -70,11 +70,11 @@ export const CustomersList: React.FC = () => {
       title='Customers'
       toolbar={
         <ListsComponent
-          mostrarInputBusca
-          textoDaBusca={busca}
-          textoBotaoNovo='New'
-          aoClicarEmNovo={() => navigate('/customers/new')}
-          aoMudarTextoDeBusca={texto => setSearchParams({ busca: texto, pagina: '1' }, { replace: true })}
+          showSearchInput
+          searchText={search}
+          newButtonLabel='New'
+          onNewButtonClick={() => navigate('/customers/new')}
+          onSearchTextChange={text => setSearchParams({ search: text, page: '1' }, { replace: true })}
         />
       }
     >
@@ -122,9 +122,9 @@ export const CustomersList: React.FC = () => {
               <TableRow>
                 <TableCell colSpan={3}>
                   <Pagination
-                    page={pagina}
+                    page={page}
                     count={Math.ceil(count / Environment.PAGE_SIZE)}
-                    onChange={(_, newPage) => setSearchParams({ busca, pagina: newPage.toString() }, { replace: true })}
+                    onChange={(_, newPage) => setSearchParams({ search, page: newPage.toString() }, { replace: true })}
                   />
                 </TableCell>
               </TableRow>

@@ -1,7 +1,6 @@
 import { useEffect, useState } from 'react';
 import { Select, SelectProps, InputLabel, MenuItem, FormControl, FormHelperText } from '@mui/material';
 import { useField } from '@unform/core';
-import { string } from 'yup';
 
 type TVSelectProps = SelectProps & {
   name: string;

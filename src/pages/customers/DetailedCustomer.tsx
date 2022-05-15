@@ -125,16 +125,16 @@ export const DetailedCustomer: React.FC = () => {
       title={id === 'new' ? 'New customer' : name}
       toolbar={
         <DetailsComponent
-          textoBotaoNovo='New'
-          mostrarBotaoSalvarEFechar
-          mostrarBotaoNovo={id !== 'new'}
-          mostrarBotaoApagar={id !== 'new'}
+          newButtonLabel='New'
+          showSaveAndCloseButton
+          showNewButton={id !== 'new'}
+          showDeleteButton={id !== 'new'}
 
-          aoClicarEmSalvar={save}
-          aoClicarEmSalvarEFechar={saveAndClose}
-          aoClicarEmVoltar={() => navigate('/customers')}
-          aoClicarEmApagar={() => handleDelete(Number(id))}
-          aoClicarEmNovo={() => navigate('/customers/new')}
+          onSaveButtonClick={save}
+          onSaveAndCloseButtonClick={saveAndClose}
+          onBackButtonClick={() => navigate('/customers')}
+          onDeleteButtonClick={() => handleDelete(Number(id))}
+          onNewButtonClick={() => navigate('/customers/new')}
         />
       }
     >

@@ -59,7 +59,7 @@ export const Dashboard = () => {
   return (
     <BaseLayout
       title='Home'
-      toolbar={<ListsComponent mostrarBotaoNovo={false} />}
+      toolbar={<ListsComponent showNewButton={false} />}
     >
       <Box width='100%' display='flex'>
         <Grid container margin={2}>

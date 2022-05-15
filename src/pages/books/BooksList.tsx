@@ -17,19 +17,23 @@ export const BooksList: React.FC = () => {
   const [isLoading, setIsLoading] = useState(true);
   const [count, setCount] = useState(0);
 
-  const busca = useMemo(() => {
-    return searchParams.get('busca') || '';
+  const search = useMemo(() => {
+    return searchParams.get('search') || '';
+  }, [searchParams]);
+  
+  const selectOption = useMemo(() => {
+    return searchParams.get('selectOption') || '';
   }, [searchParams]);
 
-  const pagina = useMemo(() => {
-    return Number(searchParams.get('pagina') || '1');
+  const page = useMemo(() => {
+    return Number(searchParams.get('page') || '1');
   }, [searchParams]);
 
   useEffect(() => {
     setIsLoading(true);
 
     debounce(() => {
-      BooksService.getAll(pagina, busca)
+      BooksService.getAll(page, search, selectOption)
         .then((result) => {
           setIsLoading(false);
 
@@ -43,7 +47,7 @@ export const BooksList: React.FC = () => {
           }
         });
     });
-  }, [busca, pagina]);
+  }, [search, selectOption, page]);
 
   const handleDelete = (id: number) => {
     if (confirm('Are you sure you want to proceed?')) {
@@ -66,11 +70,15 @@ export const BooksList: React.FC = () => {
       title='Books'
       toolbar={
         <ListsComponent
-          mostrarInputBusca
-          textoDaBusca={busca}
-          textoBotaoNovo='New'
-          aoClicarEmNovo={() => navigate('/books/new')}
-          aoMudarTextoDeBusca={texto => setSearchParams({ busca: texto, pagina: '1' }, { replace: true })}
+          showSearchInput
+          showSearchSelect
+          searchText={search}
+          selectOption={selectOption}
+          options={[Environment.AVAILABLE,Environment.CHECKED_OUT,Environment.DELAYED]}
+          newButtonLabel='New'
+          onNewButtonClick={() => navigate('/books/new')}
+          onSearchTextChange={text => setSearchParams({ search: text, selectOption, page: '1' }, { replace: true })}
+          onSelectChange={option => setSearchParams({ search, selectOption: option, page: '1' }, { replace: true })}
         />
       }
     >
@@ -94,7 +102,7 @@ export const BooksList: React.FC = () => {
                 <TableCell>{row.description}</TableCell>
                 <TableCell>{row.author}</TableCell>
                 <TableCell>{row.isbn}</TableCell>
-                <TableCell>{row.status === Environment.CHECKED_OUT && row.dueDate != null && new Date(row.dueDate) < new Date() ? Environment.DELAYED : row.status }</TableCell>
+                <TableCell>{row.status === Environment.CHECKED_OUT && row.dueDate != null && new Date(row.dueDate+'T00:00:00').setHours(0,0,0,0) < new Date().setHours(0,0,0,0) ? Environment.DELAYED : row.status }</TableCell>
                 <TableCell>{row.dueDate ? row.dueDate : '-'}</TableCell>
                 <TableCell>
                   <IconButton size="small" onClick={() => navigate(`/books/${row.id}/tracking`)}>
@@ -127,9 +135,9 @@ export const BooksList: React.FC = () => {
               <TableRow>
                 <TableCell colSpan={3}>
                   <Pagination
-                    page={pagina}
+                    page={page}
                     count={Math.ceil(count / Environment.PAGE_SIZE)}
-                    onChange={(_, newPage) => setSearchParams({ busca, pagina: newPage.toString() }, { replace: true })}
+                    onChange={(_, newPage) => setSearchParams({ search, selectOption, page: newPage.toString() }, { replace: true })}
                   />
                 </TableCell>
               </TableRow>

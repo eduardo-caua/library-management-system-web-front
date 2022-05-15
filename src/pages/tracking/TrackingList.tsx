@@ -35,8 +35,6 @@ export const TrackingList: React.FC = () => {
           if (result instanceof Error) {
             alert(result.message);
           } else {
-            console.log(result);
-
             setTitle(result.book.title);
             setStatus(result.book.status);
             setCount(result.count);

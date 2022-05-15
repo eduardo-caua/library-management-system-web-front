@@ -5,6 +5,7 @@ import { Environment } from '../../environment';
 
 interface IListsComponentProps {
   searchText?: string;
+  searchPlaceholder?: string;
   showSearchInput?: boolean;
   selectOption?: string;
   options?: string[];
@@ -19,6 +20,7 @@ interface IListsComponentProps {
 }
 export const ListsComponent: React.FC<IListsComponentProps> = ({
   searchText = '',
+  searchPlaceholder = '',
   showSearchInput = false,
   selectOption = '',
   options = [],
@@ -50,7 +52,7 @@ export const ListsComponent: React.FC<IListsComponentProps> = ({
         <TextField
           size="small"
           value={searchText}
-          placeholder={Environment.SEARCH_PLACEHOLDER}
+          placeholder={searchPlaceholder}
           onChange={(e) => onSearchTextChange?.(e.target.value)}
         />
       )}

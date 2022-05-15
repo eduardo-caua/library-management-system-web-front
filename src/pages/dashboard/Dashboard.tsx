@@ -3,38 +3,55 @@ import { Box, Card, CardContent, Grid, Typography } from '@mui/material';
 
 import { BooksService } from '../../shared/services/api/books/BooksService';
 import { CustomersService } from '../../shared/services/api/customers/CustomersService';
+import { ReportsService } from '../../shared/services/api/reports/ReportsService';
 import { ListsComponent } from '../../shared/components';
 import { BaseLayout } from '../../shared/layouts';
-import { height } from '@mui/system';
 
 export const Dashboard = () => {
-  const [isLoadingCidades, setIsLoadingCidades] = useState(true);
-  const [isLoadingPessoas, setIsLoadingPessoas] = useState(true);
-  const [countCidades, setCountCidades] = useState(0);
-  const [countPessoas, setCountPessoas] = useState(0);
+  const [isLoadingBooks, setIsLoadingBooks] = useState(true);
+  const [isLoadingBooksMetrics, setIsLoadingBooksMetrics] = useState(true);
+  const [isLoadingCustomers, setIsLoadingCustomers] = useState(true);
+  const [countBooks, setCountBooks] = useState(0);
+  const [countBooksAvailable, setCountBooksAvailable] = useState(0);
+  const [countBooksCheckedOut, setCountBooksCheckedOut] = useState(0);
+  const [countBooksDelayed, setCountBooksDelayed] = useState(0);
+  const [countCustomers, setCountCustomers] = useState(0);
 
   useEffect(() => {
-    setIsLoadingCidades(true);
-    setIsLoadingPessoas(true);
+    setIsLoadingBooks(true);
+    setIsLoadingBooksMetrics(true);
+    setIsLoadingCustomers(true);
 
     BooksService.getAll(1)
       .then((result) => {
-        setIsLoadingCidades(false);
+        setIsLoadingBooks(false);
 
         if (result instanceof Error) {
           alert(result.message);
         } else {
-          setCountCidades(result.count);
+          setCountBooks(result.count);
         }
       });
     CustomersService.getAll(1)
       .then((result) => {
-        setIsLoadingPessoas(false);
+        setIsLoadingCustomers(false);
 
         if (result instanceof Error) {
           alert(result.message);
         } else {
-          setCountPessoas(result.count);
+          setCountCustomers(result.count);
+        }
+      });
+    ReportsService.getBooksMetrics()
+      .then((result) => {
+        setIsLoadingBooksMetrics(false);
+
+        if (result instanceof Error) {
+          alert(result.message);
+        } else {
+          setCountBooksAvailable(result.available);
+          setCountBooksCheckedOut(result.checkedout);
+          setCountBooksDelayed(result.delayed);
         }
       });
   }, []);
@@ -56,12 +73,12 @@ export const Dashboard = () => {
                   </Typography>
 
                   <Box padding={3} display='flex' justifyContent='center' alignItems='center'>
-                    {!isLoadingCidades && (
+                    {!isLoadingBooks && (
                       <Typography variant='h1'>
-                        {countCidades}
+                        {countBooks}
                       </Typography>
                     )}
-                    {isLoadingCidades && (
+                    {isLoadingBooks && (
                       <Typography variant='h6'>
                         Loading...
                       </Typography>
@@ -75,12 +92,12 @@ export const Dashboard = () => {
                       </Typography>
 
                       <Box padding={3} display='flex' justifyContent='center' alignItems='center'>
-                        {!isLoadingCidades && (
+                        {!isLoadingBooksMetrics && (
                           <Typography variant='h3'>
-                            {countCidades}
+                            {countBooksAvailable}
                           </Typography>
                         )}
-                        {isLoadingCidades && (
+                        {isLoadingBooksMetrics && (
                           <Typography variant='h6'>
                             Loading...
                           </Typography>
@@ -90,16 +107,16 @@ export const Dashboard = () => {
 
                     <Grid item xs>
                       <Typography variant='subtitle1' align='center'>
-                        Checked out
+                        Checked Out
                       </Typography>
 
                       <Box padding={3} display='flex' justifyContent='center' alignItems='center'>
-                        {!isLoadingCidades && (
+                        {!isLoadingBooksMetrics && (
                           <Typography variant='h3'>
-                            {countCidades}
+                            {countBooksCheckedOut}
                           </Typography>
                         )}
-                        {isLoadingCidades && (
+                        {isLoadingBooksMetrics && (
                           <Typography variant='h6'>
                             Loading...
                           </Typography>
@@ -113,12 +130,12 @@ export const Dashboard = () => {
                       </Typography>
 
                       <Box padding={3} display='flex' justifyContent='center' alignItems='center'>
-                        {!isLoadingCidades && (
+                        {!isLoadingBooksMetrics && (
                           <Typography variant='h3'>
-                            {countCidades}
+                            {countBooksDelayed}
                           </Typography>
                         )}
-                        {isLoadingCidades && (
+                        {isLoadingBooksMetrics && (
                           <Typography variant='h6'>
                             Loading...
                           </Typography>
@@ -138,12 +155,12 @@ export const Dashboard = () => {
                   </Typography>
 
                   <Box padding={3} display='flex' justifyContent='center' alignItems='center'>
-                    {!isLoadingPessoas && (
+                    {!isLoadingCustomers && (
                       <Typography variant='h1'>
-                        {countPessoas}
+                        {countCustomers}
                       </Typography>
                     )}
-                    {isLoadingPessoas && (
+                    {isLoadingCustomers && (
                       <Typography variant='h6'>
                         Loading...
                       </Typography>

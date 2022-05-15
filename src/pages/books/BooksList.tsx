@@ -94,7 +94,7 @@ export const BooksList: React.FC = () => {
                 <TableCell>{row.description}</TableCell>
                 <TableCell>{row.author}</TableCell>
                 <TableCell>{row.isbn}</TableCell>
-                <TableCell>{row.status === Environment.CHECKED_OUT && row.dueDate != null && new Date(row.dueDate) < new Date() ? Environment.CHECKED_OUT : row.status }</TableCell>
+                <TableCell>{row.status === Environment.CHECKED_OUT && row.dueDate != null && new Date(row.dueDate) < new Date() ? Environment.DELAYED : row.status }</TableCell>
                 <TableCell>{row.dueDate ? row.dueDate : '-'}</TableCell>
                 <TableCell>
                   <IconButton size="small" onClick={() => navigate(`/books/${row.id}/tracking`)}>

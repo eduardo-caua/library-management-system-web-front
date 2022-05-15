@@ -1,7 +1,5 @@
-import { Box, Button, Icon, Paper, TextField, useTheme, FormControl, Select, InputLabel, MenuItem, FormHelperText } from '@mui/material';
+import { Box, Button, Icon, Paper, TextField, useTheme, FormControl, Select, MenuItem } from '@mui/material';
 import { useState } from 'react';
-
-import { Environment } from '../../environment';
 
 interface IListsComponentProps {
   searchText?: string;
